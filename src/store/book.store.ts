@@ -4,7 +4,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-interface Book {
+export interface Book {
   id: string;
   title: string;
   description: string;
@@ -14,6 +14,8 @@ interface Book {
   totalPage: number;
   thickness: string;
   categoryId: string;
+  category: string;
+  request: boolean;
 }
 
 interface BookStore {
