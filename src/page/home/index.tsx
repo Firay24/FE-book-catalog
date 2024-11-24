@@ -1,11 +1,9 @@
-import useAuthStore from "@/store/auth.store";
 import { useBookStore } from "@/store/book.store";
-import React, { useEffect } from "react";
+import { convertPrice } from "@/utils/convertPrice";
+import { useEffect } from "react";
 
 const HomePage = () => {
   const { books, loading, error, fetchBooks } = useBookStore();
-  const { isAuthenticated } = useAuthStore();
-  console.log(isAuthenticated);
 
   useEffect(() => {
     fetchBooks();
@@ -21,20 +19,34 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>List of Books</h1>
-      <ul>
+      <h1 className="text-2xl md:text-3xl uppercase font-medium text-center md:text-left">
+        List of Books
+      </h1>
+      <div className="mt-4">
         {books.map((book) => (
-          <li key={book.id}>
-            <h2>{book.title}</h2>
-            <p>{book.description}</p>
+          <div className="grid mt-4 grid-cols-2 gap-3">
             <img src={book.imageUrl} alt={book.title} />
-            <p>Release Year: {book.releaseYear}</p>
-            <p>Price: ${book.price}</p>
-            <p>Total Pages: {book.totalPage}</p>
-            <p>Thickness: {book.thickness}</p>
-          </li>
+            <div className="text-left flex flex-col justify-between">
+              <div>
+                <h2 className="text-xl text-emerald-500 uppercase font-semibold">
+                  {book.title}
+                </h2>
+                <p className="text-lg">
+                  {book.price && `Rp ${convertPrice(book.price)}`}
+                  <p className="text-base text-gray-500">
+                    {book.totalPage} page
+                  </p>
+                </p>
+                <p className="text-base text-gray-500">{book.releaseYear}</p>
+              </div>
+              <div>
+                <p className="text-sm">Deskripsi:</p>
+                <p className="text-sm line-clamp-5">{book.description}</p>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

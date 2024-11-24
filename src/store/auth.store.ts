@@ -38,6 +38,7 @@ const useAuthStore = create<AuthState>((set) => ({
   // logout
   logout: () => {
     set({ user: null, token: null, isAuthenticated: false });
+    localStorage.removeItem("token");
   },
 
   // fetch current user
@@ -47,7 +48,7 @@ const useAuthStore = create<AuthState>((set) => ({
         headers: { Authorization: `Bearer ${token}` },
       });
       set({
-        user: response.data,
+        user: response.data.data,
         isAuthenticated: true,
       });
     } catch (error) {
