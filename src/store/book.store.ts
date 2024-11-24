@@ -3,27 +3,7 @@
 
 import { create } from "zustand";
 import axios from "axios";
-
-export interface Book {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  releaseYear: number;
-  price: number;
-  totalPage: number;
-  thickness: string;
-  categoryId: string;
-  category: string;
-  request: boolean;
-}
-
-interface BookStore {
-  books: Book[];
-  loading: boolean;
-  error: string | null;
-  fetchBooks: () => Promise<void>;
-}
+import { BookStore } from "@/interface/book.interface";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 

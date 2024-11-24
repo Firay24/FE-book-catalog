@@ -1,16 +1,19 @@
 import ModalDetailBook from "@/components/page/modalDetailBook";
-import { Book, useBookStore } from "@/store/book.store";
+import { useBookStore } from "@/store/book.store";
+import { Book } from "@/interface/book.interface";
 import { convertPrice } from "@/utils/convertPrice";
 import { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
+import { useBorrowStore } from "@/store/borrowRequest.store";
 
 const HomePage = () => {
   const { books, loading, error, fetchBooks } = useBookStore();
+  const { borrowRequests } = useBorrowStore();
   const [detailBook, setDetailBook] = useState<Book | null>(null);
 
   useEffect(() => {
     fetchBooks();
-  }, [fetchBooks]);
+  }, [fetchBooks, borrowRequests]);
 
   if (loading) {
     return <div>Loading...</div>;
