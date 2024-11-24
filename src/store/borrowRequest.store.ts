@@ -13,9 +13,22 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 export const useBorrowStore = create<BorrowRequestStore>((set) => ({
   borrowRequests: [],
   books: [],
+  booksRequests: [],
 
   setBooks: (books: Book[]) => set({ books }),
   setBorrowRequests: (requests) => set({ borrowRequests: requests }),
+
+  fetchBooksRequest: async (userId: string) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get(`${baseUrl}/book/request/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      set({ booksRequests: response.data.data });
+    } catch (error) {
+      console.error("Failed to fetch borrow requests:", error);
+    }
+  },
 
   createBorrowRequest: async (request: BorrowRequestDto) => {
     const token = localStorage.getItem("token");

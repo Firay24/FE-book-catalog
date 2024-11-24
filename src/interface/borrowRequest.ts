@@ -10,7 +10,21 @@ export interface BorrowRequest {
   Approved?: string;
 }
 
+export interface BookRequestByUserResponse {
+  id: string;
+  userId: string;
+  bookId: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  days: number;
+  requestDate: string;
+  approvedDate: string;
+  category: string;
+  book: Book;
+}
+
 export interface BorrowRequestStore {
+  fetchBooksRequest: (userId: string) => void;
+  booksRequests: BookRequestByUserResponse[];
   borrowRequests: BorrowRequest[];
   books: Book[];
   createBorrowRequest: (borrowRequest: BorrowRequestDto) => void;
