@@ -157,10 +157,8 @@ const HomePage = () => {
                         </p>
                       </div>
                       <div className="text-left md:text-center">
-                        <p className="text-sm">Deskripsi:</p>
-                        <p className="text-sm line-clamp-4 md:line-clamp-2">
-                          {item.book.description}
-                        </p>
+                        <p className="text-sm">Status:</p>
+                        <div className="badge">{item.status}</div>
                       </div>
                     </div>
                   </div>
