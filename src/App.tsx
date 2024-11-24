@@ -1,7 +1,8 @@
 import "./App.css";
+import AppRouter from "./router";
 
 function App() {
-  return <button className="btn">Hello daisyUI</button>;
+  return <AppRouter />;
 }
 
 export default App;

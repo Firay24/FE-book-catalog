@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { AuthState } from "../interface/auth.interface";
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const useAuthStore = create<AuthState>((set) => ({
   user: null,
@@ -16,8 +16,19 @@ const useAuthStore = create<AuthState>((set) => ({
         Email: email,
         Password: password,
       });
-      const { cookie, findUser } = response.data;
-      set({ user: findUser, token: cookie, isAuthenticated: true });
+
+      const { cookie, data } = response.data;
+      const tokenPart = cookie.split("Authorization=")[1];
+
+      const token = tokenPart.split(";")[0];
+      localStorage.setItem("token", token);
+
+      // First update the state with user and token
+      set({
+        user: data,
+        token: token,
+        isAuthenticated: true,
+      });
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
@@ -29,10 +40,10 @@ const useAuthStore = create<AuthState>((set) => ({
     set({ user: null, token: null, isAuthenticated: false });
   },
 
-  // current user
+  // fetch current user
   fetchCurrentUser: async (token) => {
     try {
-      const response = await axios.get("/api/auth/me", {
+      const response = await axios.get(`${baseUrl}/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       set({
